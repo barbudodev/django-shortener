@@ -2,28 +2,22 @@
 {% load static %}
 {% load render_bundle from webpack_loader %}
 
-
-{% block head %}
-<style>
-    #container {
-        display: flex;
-        flex-flow: column;
-        justify-content: center;
-    }
-
-    #container > * {
-        padding: 12px 0;
-        background-color:aliceblue;
-    }
-</style>
-{% endblock head %}
-    
-
 {% block content %}
-<div id="container">
-    <h2>shorten URLs!</h2>
-    <input id="url-input" type="url" placeholder="paste the url">
-    <button id="send-btn">shorten my url</button>
+<div class="container">
+    <form class="shortener">
+        <h2 class="shortener__header">shorten URLs!</h2>
+        <div class="shortener__field">
+            <label for="url" class="shortener__label">
+                URL
+            </label>
+            <input id="url" class="shortener__input" type="url" placeholder="Ex: https://google.com">
+            <button id="send-btn" type="submit" class="shortener__btn">shorten my url</button>
+        </div>
+        <div id="container" class="">
+            <p class="message"></p>
+            <a class="link_to" href=""></a>
+        </div>
+    </form>
 </div>
 {% render_bundle 'calls_apis' %}
 {% endblock content %}

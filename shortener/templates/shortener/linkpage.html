@@ -1,3 +1,15 @@
-<h4>slug: {{shortener.slug}}</h4>
-<h4>to: {{shortener.link_to}}</h4>
-<h4>at: {{shortener.created}}</h4>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <form class="shortener">
+        <h2 class="shortener__header">
+            your shortened link
+        </h2>
+        <a href="{{shortener.link_to}}" class="shortener__body">
+            {{shortener.link_to}}
+        </a>
+    </form>
+</div>
+{% endblock content %}

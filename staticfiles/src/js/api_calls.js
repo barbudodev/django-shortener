@@ -1,12 +1,28 @@
 import DOM from './DOM';
 
-const urlInput = document.querySelector('#url-input');
-const sendBtn = document.querySelector('#send-btn');
+const inputUrl = document.querySelector('.shortener__input');
+const submitBtn = document.querySelector('.shortener__btn');
 const container = document.querySelector('#container');
+const messagePara = document.querySelector('.message');
+const anchor = document.querySelector('.link_to');
 
 function getLinkURL(slug) {
     const rootUrl = location.protocol + '//' + location.host + location.pathname;
     return rootUrl + slug + '/'
+}
+
+function addSucessMsg(message, link_to) {
+    container.className = 'shortener__message-success';
+    messagePara.textContent = message;
+    anchor.href = link_to;
+    anchor.textContent = link_to;
+}
+
+function addErrorMsg(message) {
+    container.className = 'shortener__message-error';
+    messagePara.textContent = message;
+    anchor.href = '';
+    anchor.textContent = '';
 }
 
 const post = (link_to) => {
@@ -22,33 +38,24 @@ const post = (link_to) => {
             })
         })
         .then(res => {
-            if (res.status == 201) {
-                success = true;
-            } else {
-                success = false;
-                status = res.status;
-            }
+            res.status == 201 ? success= true : success= false;
             return res.json()
         })
         .then(res => {
             if (success) {
                 const slug = res.slug;
                 const hrefURL = getLinkURL(slug);
-                const msg = DOM.createEl('p', 'Your link: ')
-                const anchor = DOM.createAnchor(hrefURL, hrefURL);
-                msg.appendChild(anchor);
-                container.appendChild(msg);
+                addSucessMsg('shortened successfully!', hrefURL);
             } else {
-                const msg = DOM.createEl('p', 'please, insert a valid link');
-                container.appendChild(msg);
+                addErrorMsg('Please, insert a valid URL');
             }
         });
 }
 
-sendBtn.addEventListener('click',
-    () => {
-        const link_to = urlInput.value;
-        console.log(link_to)
+submitBtn.addEventListener('click',
+    (e) => {
+        e.preventDefault();
+        const link_to = inputUrl.value;
         post(link_to);
     }
 )
