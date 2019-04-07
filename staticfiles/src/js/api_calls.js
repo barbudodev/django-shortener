@@ -10,7 +10,7 @@ function getLinkURL(slug) {
 }
 
 const post = (link_to) => {
-    let success;
+    let success, status;
     fetch('http://127.0.0.1:8000/api/shortener/', {
             method: 'post',
             headers: {
@@ -26,6 +26,7 @@ const post = (link_to) => {
                 success = true;
             } else {
                 success = false;
+                status = res.status;
             }
             return res.json()
         })
